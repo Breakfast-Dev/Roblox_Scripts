@@ -5,7 +5,7 @@ local Player = owner --game:GetService("Players").ItzNotShadow01
 local Character = Player.Character
 local mouse = NLS([[
 	print(game.Players.LocalPlayer:GetMouse())
-]], game.Players.ItzNotShadow01.PlayerGui)
+]], owner.PlayerGui)
 local Mouse = mouse
 PlayerGui = Player.PlayerGui
 Cam = workspace.CurrentCamera
