@@ -40,26 +40,6 @@ ABS = math.abs
 MRANDOM = math.random
 FLOOR = math.floor
 
-function Swait(NUMBER)
-	if NUMBER == 0 or NUMBER == nil then
-		game:GetService("RunService").RenderStepped:wait()
-	else
-		for i = 1, NUMBER do
-			game:GetService("RunService").RenderStepped:wait()
-		end
-	end
-end
-
-function swait(NUMBER)
-	if NUMBER == 0 or NUMBER == nil then
-		game:GetService("RunService").RenderStepped:wait()
-	else
-		for i = 1, NUMBER do
-			game:GetService("RunService").RenderStepped:wait()
-		end
-	end
-end
-
 function CreateWeldOrSnapOrMotor(TYPE, PARENT, PART0, PART1, C0, C1)
 	local NEWWELD = IT(TYPE)
 	NEWWELD.Part0 = PART0
@@ -1568,14 +1548,14 @@ GunGrip = CreateWeldOrSnapOrMotor("ManualWeld", Gun, RightArm, Gun, CF(0, -2.9, 
 coroutine.resume(coroutine.create(function()
 	while true do
 		for i = 0, 1, 0.01 do
+			wait()
 			RAINBOWCOLOR = Color3.fromHSV(i,1,1)
-			Swait()
 		end
 	end
 end))
 
 while true do
-	Swait()
+	wait()
 
 	for _, v in pairs(NeonParts:GetChildren()) do
 		if v:IsA("Part") or v:IsA("MeshPart") or v:IsA("WedgePart") then
