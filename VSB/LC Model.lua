@@ -1,7 +1,7 @@
 -- h/link  : load script in server side
 -- hl/link : load script in client side
 
-local Player = game:GetService("Players").ItzNotShadow01
+local Player = owner --game:GetService("Players").ItzNotShadow01
 local Character = Player.Character
 local mouse = NLS([[
 	print(game.Players.LocalPlayer:GetMouse())
@@ -2413,7 +2413,7 @@ function attackone()
 	ATTACK = v12334
 end
 
-Mouse.Button1Down:connect(function(Mouse)
+--[[ Mouse.Button1Down:connect(function(Mouse)
 	HOLD = true
 	if ATTACK == false and ModeCodeName ~= "Vaporwave" and ModeCodeName ~= "NulledXD" and ModeCodeName ~= "Rolling girl" and ModeCodeName ~= "Fave" and ModeCodeName ~= "MemeLol" then
 		attackone()
@@ -2422,7 +2422,7 @@ end)
 
 Mouse.Button1Up:connect(function(Mouse)
 	HOLD = false
-end)
+end) --]]
 
 coroutine.resume(coroutine.create(function()
 	while true do
