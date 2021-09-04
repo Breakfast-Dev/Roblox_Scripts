@@ -3,7 +3,7 @@
 
 local Player = game:GetService("Players").ItzNotShadow01
 local Character = Player.Character
-local mouse = c/NLS([[
+local mouse = NLS([[
 	print(game.Players.LocalPlayer:GetMouse())
 ]], game.Players.ItzNotShadow01.PlayerGui)
 local Mouse = mouse
