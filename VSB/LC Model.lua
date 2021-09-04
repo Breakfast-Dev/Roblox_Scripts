@@ -1583,5 +1583,5 @@ while true do
 		end
 	end
 
-	NameMode.TextColor3 = AUDIOBASEDCOLOR
+	NameMode.TextColor3 = RAINBOWCOLOR
 end
