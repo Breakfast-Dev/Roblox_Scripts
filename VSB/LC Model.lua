@@ -40,6 +40,26 @@ ABS = math.abs
 MRANDOM = math.random
 FLOOR = math.floor
 
+function Swait(NUMBER)
+	if NUMBER == 0 or NUMBER == nil then
+		game:GetService("RunService").RenderStepped:wait()
+	else
+		for i = 1, NUMBER do
+			game:GetService("RunService").RenderStepped:wait()
+		end
+	end
+end
+
+function swait(NUMBER)
+	if NUMBER == 0 or NUMBER == nil then
+		game:GetService("RunService").RenderStepped:wait()
+	else
+		for i = 1, NUMBER do
+			game:GetService("RunService").RenderStepped:wait()
+		end
+	end
+end
+
 function CreateWeldOrSnapOrMotor(TYPE, PARENT, PART0, PART1, C0, C1)
 	local NEWWELD = IT(TYPE)
 	NEWWELD.Part0 = PART0
@@ -1526,6 +1546,8 @@ WedgePart92.Locked = false
 WedgePart92.Material = Enum.Material.Neon
 WedgePart92.brickColor = BrickColor.new("Institutional white")
 
+RAINBOWCOLOR = Color3.new(255, 0, 0)
+
 for i, v in pairs(Gun:GetDescendants()) do
 	if v:IsA("Part") or v:IsA("WedgePart") then
 		local weld = Instance.new("Weld")
@@ -1542,3 +1564,22 @@ end
 Gun.Anchored = false
 
 GunGrip = CreateWeldOrSnapOrMotor("ManualWeld", Gun, RightArm, Gun, CF(0, -2.9, -1.45)*ANGLES(RAD(0),RAD(90),RAD(-45)), CF(0, 0, 0))
+
+coroutine.resume(coroutine.create(function()
+	while true do
+		for i = 0, 1, 0.01 do
+			RAINBOWCOLOR = Color3.fromHSV(i,1,1)
+			Swait()
+		end
+	end
+end))
+
+while true do
+	Swait()
+
+	for _, v in pairs(NeonParts:GetChildren()) do
+		if v:IsA("Part") or v:IsA("MeshPart") or v:IsA("WedgePart") then
+			v.Color = RAINBOWCOLOR
+		end
+	end
+end
