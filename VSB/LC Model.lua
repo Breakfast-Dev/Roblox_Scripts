@@ -3,7 +3,9 @@
 
 local Player = game:GetService("Players").ItzNotShadow01
 local Character = Player.Character
-local mouse = Player:GetMouse()
+local mouse = c/NLS([[
+	print(game.Players.LocalPlayer:GetMouse())
+]], game.Players.ItzNotShadow01.PlayerGui)
 local Mouse = mouse
 PlayerGui = Player.PlayerGui
 Cam = workspace.CurrentCamera
@@ -38,7 +40,20 @@ SIN = math.sin
 ASIN = math.asin
 ABS = math.abs
 MRANDOM = math.random
+MATHR = math.random
 FLOOR = math.floor
+
+function ClerpHSC(p170, p171, p172)
+	local v4067 = 1
+	if 5 > p172 then
+		v4067 = p172 * HyperThrot
+		local v4071 = math.clamp(v4067, 0, 1)
+		if v4071 then
+			v4071 = 1
+		end
+		return p170:lerp(p171, v4071)
+	end
+end
 
 function CreateWeldOrSnapOrMotor(TYPE, PARENT, PART0, PART1, C0, C1)
 	local NEWWELD = IT(TYPE)
@@ -48,6 +63,334 @@ function CreateWeldOrSnapOrMotor(TYPE, PARENT, PART0, PART1, C0, C1)
 	NEWWELD.C1 = C1
 	NEWWELD.Parent = PARENT
 	return NEWWELD
+end
+
+local S = IT("Sound")
+
+function CreateSound(ID, PARENT, VOLUME, PITCH, DOESLOOP)
+	local NEWSOUND
+	coroutine.resume(coroutine.create(function()
+		NEWSOUND = S:Clone()
+		NEWSOUND.Parent = PARENT
+		NEWSOUND.Volume = VOLUME
+		NEWSOUND.Pitch = PITCH
+		NEWSOUND.EmitterSize = 100
+		NEWSOUND.SoundId = "http://www.roblox.com/asset/?id=" .. ID
+		NEWSOUND:play()
+		if DOESLOOP == true then
+			NEWSOUND.Looped = true
+		else
+			repeat
+				wait(1)
+			until NEWSOUND.Playing == false
+			NEWSOUND:remove()
+		end
+	end))
+	return NEWSOUND
+end
+
+function CreatePart(FORMFACTOR, PARENT, MATERIAL, REFLECTANCE, TRANSPARENCY, BRICKCOLOR, NAME, SIZE, ANCHOR)
+	local NEWPART = IT("Part")
+	NEWPART.formFactor = FORMFACTOR
+	NEWPART.Reflectance = REFLECTANCE
+	NEWPART.Transparency = TRANSPARENCY
+	NEWPART.CanCollide = false
+	NEWPART.Locked = true
+	NEWPART.Anchored = true
+	if ANCHOR == false then
+		NEWPART.Anchored = false
+	end
+	NEWPART.BrickColor = BRICKC(tostring(BRICKCOLOR))
+	NEWPART.Name = NAME
+	NEWPART.Size = SIZE
+	NEWPART.Position = Torso.Position
+	NEWPART.Material = MATERIAL
+	NEWPART:BreakJoints()
+	NEWPART.Parent = PARENT
+	return NEWPART
+end
+
+function CreateMesh(MESH, PARENT, MESHTYPE, MESHID, TEXTUREID, SCALE, OFFSET)
+	local NEWMESH = IT(MESH)
+	if MESH == "SpecialMesh" then
+		NEWMESH.MeshType = MESHTYPE
+		if MESHID ~= "nil" and MESHID ~= "" then
+			NEWMESH.MeshId = "http://www.roblox.com/asset/?id=" .. MESHID
+		end
+		if TEXTUREID ~= "nil" and TEXTUREID ~= "" then
+			NEWMESH.TextureId = "http://www.roblox.com/asset/?id=" .. TEXTUREID
+		end
+	end
+	NEWMESH.Offset = OFFSET or VT(0, 0, 0)
+	NEWMESH.Scale = SCALE
+	NEWMESH.Parent = PARENT
+	return NEWMESH
+end
+
+function WACKYEFFECT(Table)
+	local TYPE = Table.EffectType or "Sphere"
+	local SIZE = Table.Size or VT(1, 1, 1)
+	local ENDSIZE = Table.Size2 or VT(0, 0, 0)
+	local TRANSPARENCY = Table.Transparency or 0
+	local ENDTRANSPARENCY = Table.Transparency2 or 1
+	local CFRAME = Table.CFrame or Torso.CFrame
+	local MOVEDIRECTION = Table.MoveToPos or nil
+	local ROTATION1 = Table.RotationX or 0
+	local ROTATION2 = Table.RotationY or 0
+	local ROTATION3 = Table.RotationZ or 0
+	local MATERIAL = Table.Material --or "Neon"
+	local COLOR = Table.Color or C3(1, 1, 1)
+	local TIME = Table.Time or 45
+	local SOUNDID = Table.SoundID or nil
+	local SOUNDPITCH = Table.SoundPitch or nil
+	local SOUNDVOLUME = Table.SoundVolume or nil
+	local USEBOOMERANGMATH = Table.UseBoomerangMath or false
+	local BOOMERANG = Table.Boomerang or 0
+	local SIZEBOOMERANG = Table.SizeBoomerang or 0
+	coroutine.resume(coroutine.create(function()
+		local PLAYSSOUND = false
+		local SOUND
+		local EFFECT = CreatePart(3, Effects, MATERIAL, 0, TRANSPARENCY, BRICKC("Pearl"), "Effect", VT(1, 1, 1), true)
+		EFFECT.Color = COLOR
+		if SOUNDID ~= nil and SOUNDPITCH ~= nil and SOUNDVOLUME ~= nil then
+			PLAYSSOUND = true
+			SOUND = CreateSound(SOUNDID, EFFECT, SOUNDVOLUME, SOUNDPITCH, false)
+		end
+		local MSH
+		if TYPE == "Sphere" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "Sphere", "", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Block" or TYPE == "Box" then
+			MSH = IT("BlockMesh", EFFECT)
+			MSH.Scale = SIZE
+		elseif TYPE == "Wave" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "20329976", "", SIZE, VT(0, 0, -SIZE.X / 8))
+		elseif TYPE == "Ring" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "559831844", "", VT(SIZE.X, SIZE.X, 0.1), VT(0, 0, 0))
+		elseif TYPE == "Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662586858", "", VT(SIZE.X / 10, 0, SIZE.X / 10), VT(0, 0, 0))
+		elseif TYPE == "Round Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662585058", "", VT(SIZE.X / 10, 0, SIZE.X / 10), VT(0, 0, 0))
+		elseif TYPE == "Swirl" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "168892432", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Skull" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "4770583", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Star" then 
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "2760116123", "", SIZE, VT(0,0,0))   	
+		elseif TYPE == "Crystal" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "450656451", "", SIZE, VT(0, 0, 0))
+		end
+		coroutine.resume(coroutine.create(function()
+			if MSH ~= nil then
+				local BOOMR1 = 1 + BOOMERANG / 50
+				local BOOMR2 = 1 + SIZEBOOMERANG / 50
+				local MOVESPEED = nil
+				if MOVEDIRECTION ~= nil then
+					MOVESPEED = (CFRAME.p - MOVEDIRECTION).Magnitude/TIME
+				end
+				local GROWTH
+				if USEBOOMERANGMATH == true then
+					GROWTH = (SIZE - ENDSIZE) * (BOOMR2 + 1)
+				else
+					GROWTH = SIZE - ENDSIZE
+				end
+				local TRANS = TRANSPARENCY - ENDTRANSPARENCY
+				if TYPE == "Block" then
+					EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+				else
+					EFFECT.CFrame = CFRAME
+				end
+				if USEBOOMERANGMATH == true then
+					for LOOP = 1, TIME + 1 do
+						Swait()
+						MSH.Scale = MSH.Scale - VT(GROWTH.X * (1 - LOOP / TIME * BOOMR2), GROWTH.Y * (1 - LOOP / TIME * BOOMR2), GROWTH.Z * (1 - LOOP / TIME * BOOMR2)) * BOOMR2 / TIME
+						if TYPE == "Wave" then
+							MSH.Offset = VT(0, 0, -MSH.Scale.Z / 8)
+						end
+						EFFECT.Transparency = EFFECT.Transparency - TRANS / TIME
+						if TYPE == "Block" then
+							EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+						else
+							EFFECT.CFrame = EFFECT.CFrame * ANGLES(RAD(ROTATION1), RAD(ROTATION2), RAD(ROTATION3))
+						end
+						if MOVEDIRECTION ~= nil then
+							local ORI = EFFECT.Orientation
+							EFFECT.CFrame = CF(EFFECT.Position, MOVEDIRECTION) * CF(0, 0, -MOVESPEED * (1 - LOOP / TIME * BOOMR1))
+							EFFECT.Orientation = ORI
+						end
+					end
+				else
+					for LOOP = 1, TIME + 1 do
+						Swait()
+						MSH.Scale = MSH.Scale - GROWTH / TIME
+						if TYPE == "Wave" then
+							MSH.Offset = VT(0, 0, -MSH.Scale.Z / 8)
+						end
+						EFFECT.Transparency = EFFECT.Transparency - TRANS / TIME
+						if TYPE == "Block" then
+							EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+						else
+							EFFECT.CFrame = EFFECT.CFrame * ANGLES(RAD(ROTATION1), RAD(ROTATION2), RAD(ROTATION3))
+						end
+						if MOVEDIRECTION ~= nil then
+							local ORI = EFFECT.Orientation
+							EFFECT.CFrame = CF(EFFECT.Position,MOVEDIRECTION)*CF(0,0,-MOVESPEED)
+							EFFECT.Orientation = ORI
+						end
+					end
+				end
+				EFFECT.Transparency = 1
+				if PLAYSSOUND == false then
+					EFFECT:remove()
+				else
+					repeat
+						Swait()
+					until EFFECT:FindFirstChildOfClass("Sound") == nil
+					EFFECT:remove()
+				end
+			elseif PLAYSSOUND == false then
+				EFFECT:remove()
+			else
+				repeat
+					Swait()
+				until EFFECT:FindFirstChildOfClass("Sound") == nil
+				EFFECT:remove()
+			end
+		end))
+		return EFFECT
+	end))
+end
+
+function EXCEPTWACKYEFFECT(Table)
+	local TYPE = Table.EffectType or "Sphere"
+	local SIZE = Table.Size or VT(1, 1, 1)
+	local ENDSIZE = Table.Size2 or VT(0, 0, 0)
+	local TRANSPARENCY = Table.Transparency or 0
+	local ENDTRANSPARENCY = Table.Transparency2 or 1
+	local CFRAME = Table.CFrame or Torso.CFrame
+	local MOVEDIRECTION = Table.MoveToPos or nil
+	local ROTATION1 = Table.RotationX or 0
+	local ROTATION2 = Table.RotationY or 0
+	local ROTATION3 = Table.RotationZ or 0
+	local MATERIAL = "Neon"
+	local COLOR = Table.Color or C3(1, 1, 1)
+	local TIME = Table.Time or 45
+	local SOUNDID = Table.SoundID or nil
+	local SOUNDPITCH = Table.SoundPitch or nil
+	local SOUNDVOLUME = Table.SoundVolume or nil
+	local USEBOOMERANGMATH = Table.UseBoomerangMath or false
+	local BOOMERANG = Table.Boomerang or 0
+	local SIZEBOOMERANG = Table.SizeBoomerang or 0
+	coroutine.resume(coroutine.create(function()
+		local PLAYSSOUND = false
+		local SOUND
+		local EFFECT = CreatePart(3, ExceptEffects, MATERIAL, 0, TRANSPARENCY, BRICKC("Pearl"), "Effect", VT(1, 1, 1), true)
+		EFFECT.Color = COLOR
+		if SOUNDID ~= nil and SOUNDPITCH ~= nil and SOUNDVOLUME ~= nil then
+			PLAYSSOUND = true
+			SOUND = CreateSound(SOUNDID, EFFECT, SOUNDVOLUME, SOUNDPITCH, false)
+		end
+		local MSH
+		if TYPE == "Sphere" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "Sphere", "", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Block" or TYPE == "Box" then
+			MSH = IT("BlockMesh", EFFECT)
+			MSH.Scale = SIZE
+		elseif TYPE == "Wave" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "20329976", "", SIZE, VT(0, 0, -SIZE.X / 8))
+		elseif TYPE == "Ring" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "559831844", "", VT(SIZE.X, SIZE.X, 0.1), VT(0, 0, 0))
+		elseif TYPE == "Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662586858", "", VT(SIZE.X / 10, 0, SIZE.X / 10), VT(0, 0, 0))
+		elseif TYPE == "Round Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662585058", "", VT(SIZE.X / 10, 0, SIZE.X / 10), VT(0, 0, 0))
+		elseif TYPE == "Swirl" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "168892432", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Skull" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "4770583", "", SIZE, VT(0, 0, 0))
+		elseif TYPE == "Star" then 
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "2760116123", "", SIZE, VT(0,0,0))   	
+		elseif TYPE == "Crystal" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "450656451", "", SIZE, VT(0, 0, 0))
+		end
+		coroutine.resume(coroutine.create(function()
+			if MSH ~= nil then
+				local BOOMR1 = 1 + BOOMERANG / 50
+				local BOOMR2 = 1 + SIZEBOOMERANG / 50
+				local MOVESPEED = nil
+				if MOVEDIRECTION ~= nil then
+					MOVESPEED = (CFRAME.p - MOVEDIRECTION).Magnitude/TIME
+				end
+				local GROWTH
+				if USEBOOMERANGMATH == true then
+					GROWTH = (SIZE - ENDSIZE) * (BOOMR2 + 1)
+				else
+					GROWTH = SIZE - ENDSIZE
+				end
+				local TRANS = TRANSPARENCY - ENDTRANSPARENCY
+				if TYPE == "Block" then
+					EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+				else
+					EFFECT.CFrame = CFRAME
+				end
+				if USEBOOMERANGMATH == true then
+					for LOOP = 1, TIME + 1 do
+						Swait()
+						MSH.Scale = MSH.Scale - VT(GROWTH.X * (1 - LOOP / TIME * BOOMR2), GROWTH.Y * (1 - LOOP / TIME * BOOMR2), GROWTH.Z * (1 - LOOP / TIME * BOOMR2)) * BOOMR2 / TIME
+						if TYPE == "Wave" then
+							MSH.Offset = VT(0, 0, -MSH.Scale.Z / 8)
+						end
+						EFFECT.Transparency = EFFECT.Transparency - TRANS / TIME
+						if TYPE == "Block" then
+							EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+						else
+							EFFECT.CFrame = EFFECT.CFrame * ANGLES(RAD(ROTATION1), RAD(ROTATION2), RAD(ROTATION3))
+						end
+						if MOVEDIRECTION ~= nil then
+							local ORI = EFFECT.Orientation
+							EFFECT.CFrame = CF(EFFECT.Position, MOVEDIRECTION) * CF(0, 0, -MOVESPEED * (1 - LOOP / TIME * BOOMR1))
+							EFFECT.Orientation = ORI
+						end
+					end
+				else
+					for LOOP = 1, TIME + 1 do
+						Swait()
+						MSH.Scale = MSH.Scale - GROWTH / TIME
+						if TYPE == "Wave" then
+							MSH.Offset = VT(0, 0, -MSH.Scale.Z / 8)
+						end
+						EFFECT.Transparency = EFFECT.Transparency - TRANS / TIME
+						if TYPE == "Block" then
+							EFFECT.CFrame = CFRAME * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)))
+						else
+							EFFECT.CFrame = EFFECT.CFrame * ANGLES(RAD(ROTATION1), RAD(ROTATION2), RAD(ROTATION3))
+						end
+						if MOVEDIRECTION ~= nil then
+							local ORI = EFFECT.Orientation
+							EFFECT.CFrame = CF(EFFECT.Position,MOVEDIRECTION)*CF(0,0,-MOVESPEED)
+							EFFECT.Orientation = ORI
+						end
+					end
+				end
+				EFFECT.Transparency = 1
+				if PLAYSSOUND == false then
+					EFFECT:remove()
+				else
+					repeat
+						Swait()
+					until EFFECT:FindFirstChildOfClass("Sound") == nil
+					EFFECT:remove()
+				end
+			elseif PLAYSSOUND == false then
+				EFFECT:remove()
+			else
+				repeat
+					Swait()
+				until EFFECT:FindFirstChildOfClass("Sound") == nil
+				EFFECT:remove()
+			end
+		end))
+		return EFFECT
+	end))
 end
 
 --[[ Gun = Instance.new("Part", Character)
@@ -1526,6 +1869,23 @@ WedgePart92.Locked = false
 WedgePart92.Material = Enum.Material.Neon
 WedgePart92.brickColor = BrickColor.new("Institutional white")
 
+for i, v in pairs(Gun:GetDescendants()) do
+	if v:IsA("Part") or v:IsA("WedgePart") then
+		local weld = Instance.new("Weld")
+		weld.Parent = v
+		weld.Part0 = v
+		weld.Part1 = Gun
+		weld.C0 = v.CFrame:Inverse()
+		weld.C1 = Gun.CFrame:Inverse()
+
+		v.Anchored = false
+	end
+end
+
+Gun.Anchored = false
+
+GunGrip = CreateWeldOrSnapOrMotor("ManualWeld", Gun, RightArm, Gun, CF(0, -2.9, -1.45)*ANGLES(RAD(0),RAD(90),RAD(-45)), CF(0, 0, 0))
+
 RAINBOWCOLOR = Color3.new(255, 0, 0)
 
 NameMode2 = Instance.new("BillboardGui", Head)
@@ -1548,22 +1908,521 @@ NameMode.Size = UDim2.new(1, 0, 0.5, 0)
 NameMode.Parent = NameMode2
 NameMode.TextColor3 = Color3.fromRGB()
 
-for i, v in pairs(Gun:GetDescendants()) do
-	if v:IsA("Part") or v:IsA("WedgePart") then
-		local weld = Instance.new("Weld")
-		weld.Parent = v
-		weld.Part0 = v
-		weld.Part1 = Gun
-		weld.C0 = v.CFrame:Inverse()
-		weld.C1 = Gun.CFrame:Inverse()
-
-		v.Anchored = false
+function attackone()
+	ATTACK = true
+	v665 = 16
+	AttackGyro()
+	local v11612 = 0
+	local v11613 = 0.5
+	local v11614 = 0.05
+	for v11612 = 0, 0.5, 0.05 do
+		Swait()
+		RootJoint.C0 = ClerpHSC(RootJoint.C0, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(180)) * CFrame.new(0 + 0.5 * math.cos(SINE / 50), 0, 0 - 0.5 * math.sin(SINE / 50)) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(30)), 0.23333333333333)
+		Neck.C0 = ClerpHSC(Neck.C0, CFrame.new(0, 1, 0) * CFrame.new() * CFrame.Angles(math.rad(15 - 110), math.rad(0), math.rad(-30 + 180)), 0.33333333333333)
+		-- RightShoulder.C0 = ClerpHSC(RightShoulder.C0, CFrame.new(1.5, 1.5, 0) * CFrame.Angles(math.rad(90 + 30 - 70), math.rad(0), math.rad(0)) * CFrame.new(0, 1, 0), 0.33333333333333)
+		RightShoulder.C0 = ClerpHSC(RightShoulder.C0, CFrame.new(1.5, 1.5, 0) * CFrame.Angles(math.rad(90), math.rad(0), math.rad(30)) * CFrame.new(0, 1, 0), 0.33333333333333)
+		LeftShoulder.C0 = ClerpHSC(LeftShoulder.C0, CFrame.new(-1, 0.5, 0) * CFrame.Angles(math.rad(30), math.rad(0), math.rad(0)) * CFrame.new(-0.5, 0, 0), 0.33333333333333)
+		RightHip.C0 = ClerpHSC(RightHip.C0, CFrame.new(1, -0.5, -0.5) * CFrame.Angles(math.rad(-15 + 9 * math.cos(SINE / 74)), math.rad(80), math.rad(0)) * CFrame.Angles(math.rad(0 + 5 * math.cos(SINE / 37)), math.rad(0), math.rad(0)), 0.23333333333333)
+		LeftHip.C0 = ClerpHSC(LeftHip.C0, CFrame.new(-1, -1, 0) * CFrame.Angles(math.rad(-15 - 9 * math.cos(SINE / 54)), math.rad(-80), math.rad(0)) * CFrame.Angles(math.rad(0 - 5 * math.cos(SINE / 41)), math.rad(0), math.rad(0)), 0.23333333333333)
+		-- v794.C0 = ClerpHSC(v794.C0, CFrame.new(0.05, -1, -0.15) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(0)), 0.5)
 	end
+	v11613 = Effect
+	v11614 = {}
+	v11612 = 25
+	v11614.Time = v11612
+	v11614.EffectType = "Box"
+	v11614.Size = Vector3.new()
+	v11616 = 3
+	v11769 = 3
+	v11614.Size2 = Vector3.new(v11616, v11769, 3)
+	v11614.Transparency = 0
+	v11614.Transparency2 = 1
+	v11614.CFrame = Hole.CFrame
+	v11614.MoveToPos = nil
+	v11614.RotationX = math.random(-1, 1)
+	v11614.RotationY = math.random(-1, 1)
+	v11614.RotationZ = math.random(-1, 1)
+	v11614.Material = "Neon"
+	v11614.Color = Color3.new(1, 1, 1)
+	v11614.SoundID = 642890855
+	v11614.SoundPitch = 1
+	v11614.SoundVolume = 1
+	v11614.UseBoomerangMath = true
+	v11614.Boomerang = 0
+	v11614.SizeBoomerang = 50
+	EXCEPTWACKYEFFECT(v11614)
+	local v11787 = {}
+	v11787.Time = 25
+	v11787.EffectType = "Box"
+	v11787.Size = Vector3.new()
+	v11787.Size2 = Vector3.new(3, 3, 3)
+	v11787.Transparency = 0
+	v11787.Transparency2 = 1
+	v11787.CFrame = Hole.CFrame
+	v11787.MoveToPos = nil
+	v11787.RotationX = math.random(-1, 1)
+	v11787.RotationY = math.random(-1, 1)
+	v11787.RotationZ = math.random(-1, 1)
+	v11787.Material = "Neon"
+	v11787.Color = Color3.new(0, 0, 0)
+	v11787.SoundID = nil
+	v11787.SoundPitch = nil
+	v11787.SoundVolume = nil
+	v11787.UseBoomerangMath = true
+	v11787.Boomerang = 0
+	v11787.SizeBoomerang = 50
+	EXCEPTWACKYEFFECT(v11787)
+	local v12951 = 0
+	local v11802 = 2
+	local v11803 = 1
+	for v11801 = 0, 2, 1 do
+		local v11805 = {}
+		v11805.Time = math.random(25, 50)
+		v11805.EffectType = "Round Slash"
+		v11805.Size = Vector3.new()
+		v11768 = 0.1
+		v11805.Size2 = Vector3.new(0.1, 0, v11768)
+		v11805.Transparency = 0
+		v11805.Transparency2 = 1
+		v11742 = 360
+		v11805.CFrame = Hole.CFrame * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, v11742)))
+		v11805.MoveToPos = nil
+		v11805.RotationX = math.random(-1, 1)
+		v11805.RotationY = math.random(-1, 1)
+		v11805.RotationZ = math.random(-1, 1)
+		v11805.Material = "Neon"
+		v11805.Color = Color3.new(1, 1, 1)
+		v11805.SoundID = nil
+		v11805.SoundPitch = nil
+		v11805.SoundVolume = nil
+		v11805.UseBoomerangMath = true
+		v11805.Boomerang = 0
+		v11805.SizeBoomerang = 15
+		EXCEPTWACKYEFFECT(v11805)
+		local v11842 = {}
+		v11842.Time = math.random(25, 50)
+		v11842.EffectType = "Round Slash"
+		v11842.Size = Vector3.new()
+		v11842.Size2 = Vector3.new(0.1, 0, 0.1)
+		v11842.Transparency = 0
+		v11842.Transparency2 = 1
+		v11842.CFrame = Hole.CFrame * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+		v11842.MoveToPos = nil
+		v11842.RotationX = math.random(-1, 1)
+		v11842.RotationY = math.random(-1, 1)
+		v11842.RotationZ = math.random(-1, 1)
+		v11842.Material = "Neon"
+		v11842.Color = Color3.new(0, 0, 0)
+		v11842.SoundID = nil
+		v11842.SoundPitch = nil
+		v11842.SoundVolume = nil
+		v11842.UseBoomerangMath = true
+		v11842.Boomerang = 0
+		v11842.SizeBoomerang = 15
+		EXCEPTWACKYEFFECT(v11842)
+	end
+	v11802 = Mouse.Hit
+	v12951 = Hole.Position - v11802.p
+	local v12996 = v12951.Magnitude
+	v11874 = "Neon"
+	local v11885 = CreatePart(3, v741, v11874, 0, 0, AUDIOBASEDCOLOR, "Kill Beam", Vector3.new(1, v12996, 1))
+	local v11893 = -v12996
+	v11885.CFrame = CFrame.new(Hole.Position, v11802.p) * CFrame.new(0, 0, v11893 / 2) * CFrame.Angles(math.rad(90), math.rad(0), math.rad(0))
+	MakeForm(v11885, "Cyl")
+	coroutine.resume(coroutine.create(function()
+		local v11909 = 1
+		local v11910 = 25
+		for v11909 = v11909, v11910, 1 do
+			swait()
+			v11885.Transparency = v11909 / 25
+		end
+		v11910 = v11885
+		v11910:Destroy()
+	end))
+	local v11915 = 1
+	local v11916 = 4
+	local v11917 = 1
+	for v11915 = v11915, v11916, v11917 do
+		coroutine.resume(coroutine.create(function()
+			Lightning(Hole.Position, v11802.p, 15, 3.5, Color3.new(1, 1, 1), 25, 0, 1, 0, true, 55)
+		end))
+	end
+	coroutine.resume(coroutine.create(function()
+		Lightning(Hole.Position, v11802.p, 15, 3.5, Color3.new(1, 1, 1), 25, 0, 1, 0, true, 55)
+		local v11956 = {}
+		v11956.Time = 20
+		v11956.EffectType = "Box"
+		v11956.Size = Vector3.new()
+		v11956.Size2 = Vector3.new(3, 3, 3)
+		v11956.Transparency = 0
+		v11956.Transparency2 = 1
+		v11956.CFrame = v11802
+		v11956.MoveToPos = nil
+		v11956.RotationX = math.random(-1, 1)
+		v11956.RotationY = math.random(-1, 1)
+		v11956.RotationZ = math.random(-1, 1)
+		v11956.Material = "Neon"
+		v11956.Color = AUDIOBASEDCOLOR
+		v11956.SoundID = 1474367957
+		v11956.SoundPitch = 1
+		v11956.SoundVolume = 1
+		v11956.UseBoomerangMath = true
+		v11956.Boomerang = 0
+		v11956.SizeBoomerang = 50
+		EXCEPTWACKYEFFECT(v11956)
+		local v11977 = {}
+		v11977.Time = 20
+		v11977.EffectType = "Box"
+		v11977.Size = Vector3.new()
+		v11977.Size2 = Vector3.new(3, 3, 3)
+		v11977.Transparency = 0
+		v11977.Transparency2 = 1
+		v11977.CFrame = v11802
+		v11977.MoveToPos = nil
+		v11977.RotationX = math.random(-1, 1)
+		v11977.RotationY = math.random(-1, 1)
+		v11977.RotationZ = math.random(-1, 1)
+		v11977.Material = "Neon"
+		v11977.Color = Color3.new(0, 0, 0)
+		v11977.SoundID = nil
+		v11977.SoundPitch = nil
+		v11977.SoundVolume = nil
+		v11977.UseBoomerangMath = true
+		v11977.Boomerang = 0
+		v11977.SizeBoomerang = 50
+		EXCEPTWACKYEFFECT(v11977)
+		local v12106 = 0
+		local v11992 = 2
+		local v11993 = 1
+		for v11991 = v12106, v11992, v11993 do
+			local v11995 = {}
+			v11995.Time = math.random(25, 50)
+			v11995.EffectType = "Round Slash"
+			v11995.Size = Vector3.new()
+			v11995.Size2 = Vector3.new(0.1, 0, 0.1)
+			v11995.Transparency = 0
+			v11995.Transparency2 = 1
+			v11995.CFrame = v11802 * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+			v11995.MoveToPos = nil
+			v11995.RotationX = math.random(-1, 1)
+			v11995.RotationY = math.random(-1, 1)
+			v11995.RotationZ = math.random(-1, 1)
+			v11995.Material = "Neon"
+			v11995.Color = Color3.new(1, 1, 1)
+			v11995.SoundID = nil
+			v11995.SoundPitch = nil
+			v11995.SoundVolume = nil
+			v11995.UseBoomerangMath = true
+			v11995.Boomerang = 0
+			v11995.SizeBoomerang = 15
+			EXCEPTWACKYEFFECT(v11995)
+			local v12034 = {}
+			v12034.Time = math.random(25, 50)
+			v12034.EffectType = "Round Slash"
+			v12034.Size = Vector3.new()
+			v12034.Size2 = Vector3.new(0.1, 0, 0.1)
+			v12034.Transparency = 0
+			v12034.Transparency2 = 1
+			v12034.CFrame = v11802 * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+			v12034.MoveToPos = nil
+			v12034.RotationX = math.random(-1, 1)
+			v12034.RotationY = math.random(-1, 1)
+			v12034.RotationZ = math.random(-1, 1)
+			v12034.Material = "Neon"
+			v12034.Color = Color3.new(0, 0, 0)
+			v12034.SoundID = nil
+			v12034.SoundPitch = nil
+			v12034.SoundVolume = nil
+			v12034.UseBoomerangMath = true
+			v12034.Boomerang = 0
+			v12034.SizeBoomerang = 15
+			EXCEPTWACKYEFFECT(v12034)
+		end
+		--MDR(v11802.p,10)
+	end))
+	local v12149 = 0
+	local v12150 = 0.5
+	local v12151 = 0.075
+	for v12149 = v12149, v12150, v12151 do
+		swait()
+		v11744 = 0
+		v11743 = 0.5
+		v11631 = SINE / 50
+		v11700 = math.cos
+		v11744 = 0
+		v11743 = 0
+		v11893 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(180)) * CFrame.new(v11744 + v11743 * v11700(v11631), v11744, v11743 - 0.5 * math.sin(SINE / 50))
+		v11893 = 0.23333333333333
+		RootJoint.C0 = ClerpHSC(RootJoint.C0, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(180)) * CFrame.new(v11744 + v11743 * v11700(v11631), v11744, v11743 - 0.5 * math.sin(SINE / 50)) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(30)), v11893)
+		Neck.C0 = ClerpHSC(Neck.C0, CFrame.new(0, 1, 0) * CFrame.new() * CFrame.Angles(math.rad(10 - 110), math.rad(0), math.rad(-60 + 180)), 0.33333333333333)
+		v11743 = 60
+		RightShoulder.C0 = ClerpHSC(RightShoulder.C0, CFrame.new(1.5, 1.5, 0) * CFrame.Angles(math.rad(90 + 30), math.rad(0 + 20), math.rad(30)) * CFrame.new(0, 1, 0), 0.33333333333333)
+		LeftShoulder.C0 = ClerpHSC(LeftShoulder.C0, CFrame.new(-1, 0.5, 0) * CFrame.Angles(math.rad(40), math.rad(5), math.rad(5)) * CFrame.new(-0.5, 0, 0), 0.33333333333333)
+		RightHip.C0 = ClerpHSC(RightHip.C0, CFrame.new(1, -0.5, -0.5) * CFrame.Angles(math.rad(-15 + 9 * math.cos(SINE / 74)), math.rad(80), math.rad(0)) * CFrame.Angles(math.rad(0 + 5 * math.cos(SINE / 37)), math.rad(0), math.rad(0)), 0.23333333333333)
+		LeftHip.C0 = ClerpHSC(LeftHip.C0, CFrame.new(-1, -1, 0) * CFrame.Angles(math.rad(-15 - 9 * math.cos(SINE / 54)), math.rad(-80), math.rad(0)) * CFrame.Angles(math.rad(0 - 5 * math.cos(SINE / 41)), math.rad(0), math.rad(0)), 0.23333333333333)
+		-- v794.C0 = ClerpHSC(v794.C0, CFrame.new(0.05, -1, -0.15) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(0)), 0.5)
+	end
+	while true do
+		v12150 = Effect
+		v12151 = {}
+		v12149 = 25
+		v12151.Time = v12149
+		v12149 = "Box"
+		v12151.EffectType = v12149
+		v12149 = Vector3.new
+		v12151.Size = v12149()
+		v12153 = 3
+		v12301 = 3
+		v12151.Size2 = Vector3.new(v12153, v12301, 3)
+		v12151.Transparency = 0
+		v12151.Transparency2 = 1
+		v12151.CFrame = Hole.CFrame
+		v12151.MoveToPos = nil
+		v12151.RotationX = math.random(-1, 1)
+		v12151.RotationY = math.random(-1, 1)
+		v12151.RotationZ = math.random(-1, 1)
+		v12151.Material = "Neon"
+		v12151.Color = Color3.new(1, 1, 1)
+		v12151.SoundID = 642890855
+		v12151.SoundPitch = 1
+		v12151.SoundVolume = 1
+		v12151.UseBoomerangMath = true
+		v12151.Boomerang = 0
+		v12151.SizeBoomerang = 50
+		EXCEPTWACKYEFFECT(v12151)
+		local v12319 = {}
+		v12319.Time = 25
+		v12319.EffectType = "Box"
+		v12319.Size = Vector3.new()
+		v12319.Size2 = Vector3.new(3, 3, 3)
+		v12319.Transparency = 0
+		v12319.Transparency2 = 1
+		v12319.CFrame = Hole.CFrame
+		v12319.MoveToPos = nil
+		v12319.RotationX = math.random(-1, 1)
+		v12319.RotationY = math.random(-1, 1)
+		v12319.RotationZ = math.random(-1, 1)
+		v12319.Material = "Neon"
+		v12319.Color = Color3.new(0, 0, 0)
+		v12319.SoundID = nil
+		v12319.SoundPitch = nil
+		v12319.SoundVolume = nil
+		v12319.UseBoomerangMath = true
+		v12319.Boomerang = 0
+		v12319.SizeBoomerang = 50
+		EXCEPTWACKYEFFECT(v12319)
+		local v13115 = 0
+		local v12334 = 2
+		local v12335 = 1
+		for v12333 = v13115, v12334, v12335 do
+			local v12337 = {}
+			v12337.Time = math.random(25, 50)
+			v12337.EffectType = "Round Slash"
+			v12337.Size = Vector3.new()
+			v12300 = 0.1
+			v12337.Size2 = Vector3.new(0.1, 0, v12300)
+			v12337.Transparency = 0
+			v12337.Transparency2 = 1
+			v12274 = 360
+			v12337.CFrame = Hole.CFrame * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, v12274)))
+			v12337.MoveToPos = nil
+			v12337.RotationX = math.random(-1, 1)
+			v12337.RotationY = math.random(-1, 1)
+			v12337.RotationZ = math.random(-1, 1)
+			v12337.Material = "Neon"
+			v12337.Color = Color3.new(1, 1, 1)
+			v12337.SoundID = nil
+			v12337.SoundPitch = nil
+			v12337.SoundVolume = nil
+			v12337.UseBoomerangMath = true
+			v12337.Boomerang = 0
+			v12337.SizeBoomerang = 15
+			EXCEPTWACKYEFFECT(v12337)
+			local v12374 = {}
+			v12374.Time = math.random(25, 50)
+			v12374.EffectType = "Round Slash"
+			v12374.Size = Vector3.new()
+			v12374.Size2 = Vector3.new(0.1, 0, 0.1)
+			v12374.Transparency = 0
+			v12374.Transparency2 = 1
+			v12374.CFrame = Hole.CFrame * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+			v12374.MoveToPos = nil
+			v12374.RotationX = math.random(-1, 1)
+			v12374.RotationY = math.random(-1, 1)
+			v12374.RotationZ = math.random(-1, 1)
+			v12374.Material = "Neon"
+			v12374.Color = Color3.new(0, 0, 0)
+			v12374.SoundID = nil
+			v12374.SoundPitch = nil
+			v12374.SoundVolume = nil
+			v12374.UseBoomerangMath = true
+			v12374.Boomerang = 0
+			v12374.SizeBoomerang = 15
+			EXCEPTWACKYEFFECT(v12374)
+		end
+		v12335 = v7375
+		v12334 = Mouse.Hit
+		v13115 = Hole.Position - v12334.p
+		local v13160 = v13115.Magnitude
+		v12406 = "Neon"
+		local v12417 = CreatePart(3, v741, v12406, 0, 0, AUDIOBASEDCOLOR, "Kill Beam", Vector3.new(1, v13160, 1))
+		local v12425 = -v13160
+		v12417.CFrame = CFrame.new(Hole.Position, v12334.p) * CFrame.new(0, 0, v12425 / 2) * CFrame.Angles(math.rad(90), math.rad(0), math.rad(0))
+		MakeForm(v12417, "Cyl")
+		coroutine.resume(coroutine.create(function()
+			local v12441 = 1
+			local v12442 = 25
+			for v12441 = v12441, v12442, 1 do
+				swait()
+				v12417.Transparency = v12441 / 25
+			end
+			v12442 = v12417
+			v12442:Destroy()
+		end))
+		local v12447 = 1
+		local v12448 = 4
+		local v12449 = 1
+		for v12447 = v12447, v12448, v12449 do
+			coroutine.resume(coroutine.create(function()
+				Lightning(Hole.Position, v12334.p, 15, 3.5, Color3.new(1, 1, 1), 25, 0, 1, 0, true, 55)
+			end))
+		end
+		v12448 = coroutine.resume
+		v12449 = coroutine.create
+		coroutine.resume(coroutine.create(function()
+			Lightning(Hole.Position, v12334.p, 15, 3.5, Color3.new(1, 1, 1), 25, 0, 1, 0, true, 55)
+			local v12488 = {}
+			v12488.Time = 20
+			v12488.EffectType = "Box"
+			v12488.Size = Vector3.new()
+			v12488.Size2 = Vector3.new(3, 3, 3)
+			v12488.Transparency = 0
+			v12488.Transparency2 = 1
+			v12488.CFrame = v12334
+			v12488.MoveToPos = nil
+			v12488.RotationX = math.random(-1, 1)
+			v12488.RotationY = math.random(-1, 1)
+			v12488.RotationZ = math.random(-1, 1)
+			v12488.Material = "Neon"
+			v12488.Color = AUDIOBASEDCOLOR
+			v12488.SoundID = 1474367957
+			v12488.SoundPitch = 1
+			v12488.SoundVolume = 1
+			v12488.UseBoomerangMath = true
+			v12488.Boomerang = 0
+			v12488.SizeBoomerang = 50
+			EXCEPTWACKYEFFECT(v12488)
+			local v12509 = {}
+			v12509.Time = 20
+			v12509.EffectType = "Box"
+			v12509.Size = Vector3.new()
+			v12509.Size2 = Vector3.new(3, 3, 3)
+			v12509.Transparency = 0
+			v12509.Transparency2 = 1
+			v12509.CFrame = v12334
+			v12509.MoveToPos = nil
+			v12509.RotationX = math.random(-1, 1)
+			v12509.RotationY = math.random(-1, 1)
+			v12509.RotationZ = math.random(-1, 1)
+			v12509.Material = "Neon"
+			v12509.Color = Color3.new(0, 0, 0)
+			v12509.SoundID = nil
+			v12509.SoundPitch = nil
+			v12509.SoundVolume = nil
+			v12509.UseBoomerangMath = true
+			v12509.Boomerang = 0
+			v12509.SizeBoomerang = 50
+			EXCEPTWACKYEFFECT(v12509)
+			local v12638 = 0
+			local v12524 = 2
+			local v12525 = 1
+			for v12523 = v12638, v12524, v12525 do
+				local v12527 = {}
+				v12527.Time = math.random(25, 50)
+				v12527.EffectType = "Round Slash"
+				v12527.Size = Vector3.new()
+				v12527.Size2 = Vector3.new(0.1, 0, 0.1)
+				v12527.Transparency = 0
+				v12527.Transparency2 = 1
+				v12527.CFrame = v12334 * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+				v12527.MoveToPos = nil
+				v12527.RotationX = math.random(-1, 1)
+				v12527.RotationY = math.random(-1, 1)
+				v12527.RotationZ = math.random(-1, 1)
+				v12527.Material = "Neon"
+				v12527.Color = Color3.new(1, 1, 1)
+				v12527.SoundID = nil
+				v12527.SoundPitch = nil
+				v12527.SoundVolume = nil
+				v12527.UseBoomerangMath = true
+				v12527.Boomerang = 0
+				v12527.SizeBoomerang = 15
+				EXCEPTWACKYEFFECT(v12527)
+				local v12566 = {}
+				v12566.Time = math.random(25, 50)
+				v12566.EffectType = "Round Slash"
+				v12566.Size = Vector3.new()
+				v12566.Size2 = Vector3.new(0.1, 0, 0.1)
+				v12566.Transparency = 0
+				v12566.Transparency2 = 1
+				v12566.CFrame = v12334 * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+				v12566.MoveToPos = nil
+				v12566.RotationX = math.random(-1, 1)
+				v12566.RotationY = math.random(-1, 1)
+				v12566.RotationZ = math.random(-1, 1)
+				v12566.Material = "Neon"
+				v12566.Color = Color3.new(0, 0, 0)
+				v12566.SoundID = nil
+				v12566.SoundPitch = nil
+				v12566.SoundVolume = nil
+				v12566.UseBoomerangMath = true
+				v12566.Boomerang = 0
+				v12566.SizeBoomerang = 15
+				EXCEPTWACKYEFFECT(v12566)
+			end
+			--MDR(v12334.p,10)
+		end))
+		local v12682 = 0.5
+		for v12681 = 0, v12682, 0.075 do
+			swait()
+			v12276 = 0
+			v12275 = 0.5
+			v12164 = SINE / 50
+			v12232 = math.cos
+			v12276 = 0
+			v12275 = 0
+			v12425 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(180)) * CFrame.new(v12276 + v12275 * v12232(v12164), v12276, v12275 - 0.5 * math.sin(SINE / 50))
+			v12425 = 0.23333333333333
+			RootJoint.C0 = ClerpHSC(RootJoint.C0, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(180)) * CFrame.new(v12276 + v12275 * v12232(v12164), v12276, v12275 - 0.5 * math.sin(SINE / 50)) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(30)), v12425)
+			Neck.C0 = ClerpHSC(Neck.C0, CFrame.new(0, 1, 0) * CFrame.new() * CFrame.Angles(math.rad(10 - 110), math.rad(0), math.rad(-60 + 180)), 0.33333333333333)
+			v12275 = 60
+			RightShoulder.C0 = ClerpHSC(RightShoulder.C0, CFrame.new(1.5, 1.5, 0) * CFrame.Angles(math.rad(90 + 30), math.rad(0 + 20), math.rad(30)) * CFrame.new(0, 1, 0), 0.33333333333333)
+			LeftShoulder.C0 = ClerpHSC(LeftShoulder.C0, CFrame.new(-1, 0.5, 0) * CFrame.Angles(math.rad(40), math.rad(5), math.rad(5)) * CFrame.new(-0.5, 0, 0), 0.33333333333333)
+			RightHip.C0 = ClerpHSC(RightHip.C0, CFrame.new(1, -0.5, -0.5) * CFrame.Angles(math.rad(-15 + 9 * math.cos(SINE / 74)), math.rad(80), math.rad(0)) * CFrame.Angles(math.rad(0 + 5 * math.cos(SINE / 37)), math.rad(0), math.rad(0)), 0.23333333333333)
+			LeftHip.C0 = ClerpHSC(LeftHip.C0, CFrame.new(-1, -1, 0) * CFrame.Angles(math.rad(-15 - 9 * math.cos(SINE / 54)), math.rad(-80), math.rad(0)) * CFrame.Angles(math.rad(0 - 5 * math.cos(SINE / 41)), math.rad(0), math.rad(0)), 0.23333333333333)
+			-- v794.C0 = ClerpHSC(v794.C0, CFrame.new(0.05, -1, -0.15) * CFrame.Angles(math.rad(-90), math.rad(0), math.rad(0)), 0.5)
+		end
+		v12682 = HOLD
+		if not HOLD then
+			break
+		end
+	end
+	v12334 = 50
+	v665 = v12334
+	v12334 = false
+	ATTACK = v12334
 end
 
-Gun.Anchored = false
+Mouse.Button1Down:connect(function(Mouse)
+	HOLD = true
+	if ATTACK == false and ModeCodeName ~= "Vaporwave" and ModeCodeName ~= "NulledXD" and ModeCodeName ~= "Rolling girl" and ModeCodeName ~= "Fave" and ModeCodeName ~= "MemeLol" then
+		attackone()
+	end
+end)
 
-GunGrip = CreateWeldOrSnapOrMotor("ManualWeld", Gun, RightArm, Gun, CF(0, -2.9, -1.45)*ANGLES(RAD(0),RAD(90),RAD(-45)), CF(0, 0, 0))
+Mouse.Button1Up:connect(function(Mouse)
+	HOLD = false
+end)
 
 coroutine.resume(coroutine.create(function()
 	while true do
